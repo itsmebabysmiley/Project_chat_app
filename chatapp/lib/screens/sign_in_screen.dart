@@ -28,11 +28,12 @@ class _SignInScreenState extends State<SignInScreen> {
       await _auth.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
       final client = StreamChatCore.of(context).client;
+
       await FirebaseFirestore.instance.collection('users').get().then(
-            (querySnapshot) => {
-              querySnapshot.docs.forEach(
-                (doc) async {
-                  if (doc['email'].toString() == _emailController.text) {
+            (querySnapshot) async => {
+              for(var doc in querySnapshot.docs){
+
+                if (doc['email'].toString() == _emailController.text) {
                     await client.connectUser(
                       User(
                         id: doc.id.toString(),
@@ -44,10 +45,9 @@ class _SignInScreenState extends State<SignInScreen> {
                         },
                       ),
                       client.devToken(doc.id.toString()).rawValue,
-                    );
+                    )
                   }
-                },
-              ),
+              }
             },
           );
       // successful login with firebase and login with stream chat. push to home screen.

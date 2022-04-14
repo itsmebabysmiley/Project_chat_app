@@ -16,6 +16,7 @@ void main() async {
   runApp(
     MyApp(
       streamChatClient: client,
+      appTheme: AppTheme(),
     ),
   );
 }
@@ -24,15 +25,16 @@ class MyApp extends StatelessWidget {
   const MyApp({
     Key? key,
     required this.streamChatClient,
+    required this.appTheme,
   }) : super(key: key);
   final StreamChatClient streamChatClient;
-
+  final AppTheme appTheme;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.light(),
-      darkTheme: AppTheme.dark(),
+      theme: appTheme.light,
+      darkTheme: appTheme.dark,
       themeMode: ThemeMode.light,
       title: 'ChatKu',
       builder: (context, child) {

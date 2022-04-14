@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+//Color.fromARGB(255, 59, 72, 246);
 abstract class AppColors {
   static const secondary = Color.fromARGB(255, 59, 72, 246);
   static const accent = Color(0xFFD6755B);
@@ -25,14 +25,14 @@ abstract class _DarkColors {
 }
 
 /// Reference to the application theme.
-abstract class AppTheme {
+ class AppTheme {
   static const accentColor = AppColors.accent;
   static final visualDensity = VisualDensity.adaptivePlatformDensity;
-
+  final darkBase = ThemeData.dark();
+  final lightBase = ThemeData.light();
   /// Light theme and its settings.
-  static ThemeData light() => ThemeData(
+  ThemeData get light => ThemeData(
         brightness: Brightness.light,
-        accentColor: accentColor,
         visualDensity: visualDensity,
         textTheme:
             GoogleFonts.mulishTextTheme().apply(bodyColor: AppColors.textDark),
@@ -42,13 +42,13 @@ abstract class AppTheme {
         primaryTextTheme: const TextTheme(
           headline6: TextStyle(color: AppColors.textDark),
         ),
-        iconTheme: const IconThemeData(color: AppColors.iconDark),
+        iconTheme: const IconThemeData(color: AppColors.iconDark), 
+        colorScheme: lightBase.colorScheme.copyWith(secondary: accentColor),
       );
 
   /// Dark theme and its settings.
-  static ThemeData dark() => ThemeData(
+  ThemeData get dark => ThemeData(
         brightness: Brightness.dark,
-        accentColor: accentColor,
         visualDensity: visualDensity,
         textTheme:
             GoogleFonts.interTextTheme().apply(bodyColor: AppColors.textLigth),
@@ -58,6 +58,7 @@ abstract class AppTheme {
         primaryTextTheme: const TextTheme(
           headline6: TextStyle(color: AppColors.textLigth),
         ),
-        iconTheme: const IconThemeData(color: AppColors.iconLight),
+        iconTheme: const IconThemeData(color: AppColors.iconLight), 
+        colorScheme: darkBase.colorScheme.copyWith(secondary: accentColor),
       );
 }

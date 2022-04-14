@@ -1,6 +1,5 @@
 import 'package:chatapp/pages/contact_page.dart';
 import 'package:chatapp/pages/messages_page.dart';
-import 'package:chatapp/pages/profile_page.dart';
 import 'package:chatapp/screens/profile_screen.dart';
 import 'package:chatapp/theme.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.secondary,
         title: Text(pageTitles[_selectedIndex]),
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: pages[_selectedIndex],

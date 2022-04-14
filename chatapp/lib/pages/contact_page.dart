@@ -12,9 +12,7 @@ class ContactPage extends StatelessWidget {
    @override
   Widget build(BuildContext context) {
     return UserListCore(
-      pagination: const PaginationParams(
-        limit: 20,
-      ),
+      limit: 20,
       filter: Filter.notEqual('id', context.currentUser!.id),
       emptyBuilder: (context) {
         return const Center(child: Text('There are no users'));

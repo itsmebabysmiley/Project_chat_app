@@ -1,5 +1,7 @@
 import 'package:chatapp/app.dart';
 import 'package:chatapp/screens/select_user_screen.dart';
+import 'package:chatapp/screens/sign_in_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart';
 
@@ -36,11 +38,11 @@ class ProfileScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       "Phone number",
                       style: TextStyle(fontWeight: FontWeight.w900),
                     ),
-                    Text("0123445566"),
+                    Text(user?.extraData['phone'].toString()?? ''),
                   ],
                 ),
               ),
@@ -49,11 +51,11 @@ class ProfileScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       "Username",
                       style: TextStyle(fontWeight: FontWeight.w900),
                     ),
-                    Text(user?.id?? ''),
+                    Text(user?.extraData['email'].toString()?? ''),
                   ],
                 ),
               ),
@@ -85,8 +87,8 @@ class __SignOutButtonState extends State<_SignOutButton> {
 
     try {
       await StreamChatCore.of(context).client.disconnectUser();
-
-      Navigator.of(context).push(SelectUserScreen.route);
+      await FirebaseAuth.instance.signOut();
+      Navigator.of(context).push(SignInScreen.route);
     } on Exception catch (e, st) {
       logger.e('Could not sign out', e, st);
       setState(() {

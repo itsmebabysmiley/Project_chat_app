@@ -33,6 +33,7 @@ class _SelectUserScreenState extends State<SelectUserScreen> {
           extraData: {
             'name': user.name,
             'image': user.image,
+            'phone': user.phone
           },
         ),
         client.devToken(user.id).rawValue,

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:chatapp/app.dart';
+import 'package:chatapp/helper.dart';
 import 'package:chatapp/models/message.dart';
 import 'package:chatapp/theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -157,7 +158,7 @@ class _CustomAppBarTitle extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          context.currentUser!.name,
+          Helpers.getChannelName(channel, context.currentUser!),
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(color: Colors.black, fontSize: 14),
         ),

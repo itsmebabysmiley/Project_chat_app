@@ -1,11 +1,8 @@
 import 'package:chatapp/pages/contact_page.dart';
 import 'package:chatapp/pages/messages_page.dart';
 import 'package:chatapp/pages/profile_page.dart';
-import 'package:chatapp/screens/chat_screen.dart';
-import 'package:chatapp/screens/contact_screen.dart';
 import 'package:chatapp/screens/profile_screen.dart';
 import 'package:chatapp/theme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,11 +13,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
   final pages = const [
     ContactPage(),
     MessagesPage(),
-    ProfilePage()
+    ProfileScreen()
   ];
 
   final pageTitles = const [
@@ -34,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _selectedIndex = index;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

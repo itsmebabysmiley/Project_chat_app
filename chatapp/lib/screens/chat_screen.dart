@@ -2,14 +2,12 @@ import 'dart:async';
 
 import 'package:chatapp/app.dart';
 import 'package:chatapp/helper.dart';
-import 'package:chatapp/models/message.dart';
 import 'package:chatapp/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart';
 import 'package:collection/collection.dart' show IterableExtension;
-import '../widgets/avatar.dart';
 import '../widgets/display_errors.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -20,7 +18,7 @@ class ChatScreen extends StatefulWidget {
   static Route routeWithChannel(Channel channel) => MaterialPageRoute(
         builder: (context) => StreamChannel(
           channel: channel,
-          child: ChatScreen(),
+          child: const ChatScreen(),
         ),
       );
 
@@ -62,7 +60,7 @@ class _ChatScreenState extends State<ChatScreen> {
         backgroundColor: Colors.white,
         elevation: 0.25,
         centerTitle: true,
-        title: _CustomAppBarTitle(),
+        title: const _CustomAppBarTitle(),
         actions: [
           InkWell(
             onTap: () {},
@@ -85,7 +83,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 _MessageList(messages: messages),
           ),
         ),
-        _ActionBar(),
+        const _ActionBar(),
       ]),
     );
   }
@@ -543,7 +541,6 @@ class _ActionBarState extends State<_ActionBar> {
   final TextEditingController controller = TextEditingController();
 
   Future<void> _sendMessage() async {
-    print(controller.text);
     if (controller.text.isNotEmpty) {
       StreamChannel.of(context)
           .channel

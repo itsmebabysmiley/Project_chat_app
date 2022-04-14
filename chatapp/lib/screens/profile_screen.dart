@@ -1,5 +1,4 @@
 import 'package:chatapp/app.dart';
-import 'package:chatapp/screens/select_user_screen.dart';
 import 'package:chatapp/screens/sign_in_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

@@ -153,26 +153,28 @@ class _SignInScreenState extends State<SignInScreen> {
                         const Text('Log in', style: TextStyle(fontSize: 20))),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 28, left: 50.0, right: 50.0),
-              child: SizedBox(
-                width: double.infinity,
-                height: 40,
-                child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: ((context) => const SignUpScreen()),
-                        ),
-                      );
-                    },
-                    child:
-                        const Text('Sign Up', style: TextStyle(fontSize: 20))),
-              ),
+            const SizedBox(height: 18),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text(
+                  "Don't have an account? ",
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(SignUpScreen.route);
+                  },
+                  child: const Text("Sign up",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      )),
+                )
+              ],
             ),
             if (isLoggingIn) ...[
               const SizedBox(height: 16),
-              Center(child: CircularProgressIndicator()),
+              const Center(child: CircularProgressIndicator()),
             ]
           ],
         ),

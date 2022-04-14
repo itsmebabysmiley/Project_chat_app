@@ -1,3 +1,4 @@
+import 'package:chatapp/screens/sign_in_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import '../helper.dart';
 class SignUpScreen extends StatefulWidget {
   static Route get route => MaterialPageRoute(
         builder: (context) => const SignUpScreen(),
-  );
+      );
 
   const SignUpScreen({Key? key}) : super(key: key);
 
@@ -26,6 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     bool isSignUp = false;
     final FirebaseAuth _auth = FirebaseAuth.instance;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
+
     Future<void> addUser(String email, String name, String phone) {
       // Call the user's CollectionReference to add a new user
       return users
@@ -44,15 +46,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
         isSignUp = true;
       });
       try {
-        UserCredential result = await _auth.createUserWithEmailAndPassword(
+        await _auth.createUserWithEmailAndPassword(
           email: _emailController.text,
           password: _passwordController.text,
         );
-        User? user = result.user;
-        print(user);
         // also add new user to users collection.
         await addUser(
-            _emailController.text, _nameController.text, _phoneController.text);
+          _emailController.text,
+          _nameController.text,
+          _phoneController.text,
+        );
 
         Navigator.of(context).pop();
       } on FirebaseAuthException catch (e) {
@@ -172,6 +175,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child:
                         const Text('Sign Up', style: TextStyle(fontSize: 20))),
               ),
+            ),
+            const SizedBox(height: 18),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text(
+                  "Already have an account? ",
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(SignInScreen.route);
+                  },
+                  child: const Text("Sign in",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      )),
+                )
+              ],
             ),
             if (isSignUp) ...[
               const SizedBox(height: 16),

@@ -3,11 +3,11 @@ import 'package:chatapp/screens/sign_in_screen.dart';
 import 'package:chatapp/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart';
-import 'screens/select_user_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  
   final client = StreamChatClient(streamKey); // Stream core
   WidgetsFlutterBinding.ensureInitialized(); // Firebase configure.
   await Firebase.initializeApp(
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
           ),
         );
       },
-      home: SignInScreen(),
+      home: const SignInScreen(),
     );
   }
 }

@@ -87,6 +87,7 @@ class __SignOutButtonState extends State<_SignOutButton> {
     try {
       await StreamChatCore.of(context).client.disconnectUser();
       await FirebaseAuth.instance.signOut();
+      Navigator.of(context).pop();
       Navigator.of(context).push(SignInScreen.route);
     } on Exception catch (e, st) {
       logger.e('Could not sign out', e, st);

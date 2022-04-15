@@ -56,8 +56,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
           _nameController.text,
           _phoneController.text,
         );
-
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Successfully!'),
+            content: const Text("Sign up complete."),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Ok'))
+            ],
+          ),
+        );
         Navigator.of(context).pop();
+        Navigator.of(context).push(SignInScreen.route);
       } on FirebaseAuthException catch (e) {
         showDialog(
           context: context,

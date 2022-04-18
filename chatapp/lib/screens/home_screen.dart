@@ -12,11 +12,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 1; //default page of the homescreen.
   final pages = const [
-    ContactPage(),
-    MessagesPage(),
-    ProfileScreen()
+    ContactPage(),  //0
+    MessagesPage(), //1
+    ProfileScreen() //2
   ];
 
   final pageTitles = const [
@@ -25,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     "Profile" 
   ];
 
+  // function for change pages when click on bottom navigaton bar.
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;

@@ -25,15 +25,18 @@ class _SignInScreenState extends State<SignInScreen> {
     });
 
     try {
+      // sign in to firebase auth.
       await _auth.signInWithEmailAndPassword(
           email: _emailController.text, password: _passwordController.text);
       final client = StreamChatCore.of(context).client;
-
+      // query user document and connect user to stream chat. If user doesn't exists, stream chat will
+      // create new user automatically.
       await FirebaseFirestore.instance.collection('users').get().then(
             (querySnapshot) async => {
               for(var doc in querySnapshot.docs){
-
+                
                 if (doc['email'].toString() == _emailController.text) {
+                    // connect to stream chat base on user information from firestore.
                     await client.connectUser(
                       User(
                         id: doc.id.toString(),

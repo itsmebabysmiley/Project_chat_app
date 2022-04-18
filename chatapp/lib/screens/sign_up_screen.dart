@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../helper.dart';
 
 class SignUpScreen extends StatefulWidget {
+
   static Route get route => MaterialPageRoute(
         builder: (context) => const SignUpScreen(),
       );
@@ -46,11 +47,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         isSignUp = true;
       });
       try {
+        // create a new user with firebase auth.
         await _auth.createUserWithEmailAndPassword(
           email: _emailController.text,
           password: _passwordController.text,
         );
-        // also add new user to users collection.
+        // also add new user to firestore.
         await addUser(
           _emailController.text,
           _nameController.text,
@@ -70,6 +72,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ],
           ),
         );
+        // if sign up successful, it will back to sign in screen.
         Navigator.of(context).pop();
         Navigator.of(context).push(SignInScreen.route);
       } on FirebaseAuthException catch (e) {

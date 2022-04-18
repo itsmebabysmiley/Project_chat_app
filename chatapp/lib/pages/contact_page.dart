@@ -12,8 +12,8 @@ class ContactPage extends StatelessWidget {
    @override
   Widget build(BuildContext context) {
     return UserListCore(
-      limit: 20,
-      filter: Filter.notEqual('id', context.currentUser!.id),
+      limit: 20, //limit 20 users on page.
+      filter: Filter.notEqual('id', context.currentUser!.id), // show users that not ourself.
       emptyBuilder: (context) {
         return const Center(child: Text('There are no users'));
       },
@@ -47,13 +47,13 @@ class _ContactTile extends StatelessWidget {
   }) : super(key: key);
 
   final User user;
-
+  // function for create a peer-to-peer channel.
   Future<void> createChannel(BuildContext context) async {
     final core = StreamChatCore.of(context);
     final channel = core.client.channel('messaging', extraData: {
       'members': [
-        core.currentUser!.id,
-        user.id,
+        core.currentUser!.id, //chatter id
+        user.id, //ourself id
       ]
     });
     await channel.watch(); //watch the channel when it changes. If channel doesnt exists, it will create.

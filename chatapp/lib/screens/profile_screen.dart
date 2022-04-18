@@ -85,8 +85,12 @@ class __SignOutButtonState extends State<_SignOutButton> {
     });
 
     try {
+      //sign out from stream chat
       await StreamChatCore.of(context).client.disconnectUser();
+      //sing out from firebase auth.
       await FirebaseAuth.instance.signOut();
+
+      //route to sign in page.
       Navigator.of(context).pop();
       Navigator.of(context).push(SignInScreen.route);
     } on Exception catch (e, st) {

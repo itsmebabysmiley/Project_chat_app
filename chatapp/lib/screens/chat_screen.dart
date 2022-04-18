@@ -32,14 +32,14 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-
+    // unread messages.
     unreadCountSubscription = StreamChannel.of(context)
         .channel
         .state!
         .unreadCountStream
         .listen(_unreadCountHandler);
   }
-
+  // make unread messages to read.
   Future<void> _unreadCountHandler(int count) async {
     if (count > 0) {
       await StreamChannel.of(context).channel.markRead();
@@ -48,7 +48,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void dispose() {
-    unreadCountSubscription.cancel();
+    unreadCountSubscription.cancel(); //stop listening
     super.dispose();
   }
 
@@ -109,19 +109,19 @@ class _MessageList extends StatelessWidget {
             //data label configure.
             return _DateLable(dateTime: messages[index].createdAt);
           }
-          if (messages.length == 1) {
+          if (messages.length == 1) { //prevent componect error
             return const SizedBox.shrink();
-          } else if (index >= messages.length - 1) {
+          } else if (index >= messages.length - 1) { //prevent componect error
             return const SizedBox.shrink();
-          } else if (index <= messages.length) {
+          } else if (index <= messages.length) { // have some messages.
             final message = messages[index];
             final nextMessage = messages[index + 1];
-            if (!Jiffy(message.createdAt.toLocal())
+            if (!Jiffy(message.createdAt.toLocal()) // show date labe with different day.
                 .isSame(nextMessage.createdAt.toLocal(), Units.DAY)) {
               return _DateLable(
                 dateTime: message.createdAt,
               );
-            } else {
+            } else { // prevent duplicate date label for the same day.
               return const SizedBox.shrink();
             }
           } else {
@@ -172,7 +172,7 @@ class _CustomAppBarTitle extends StatelessWidget {
                   switch (status) {
                     case ConnectionStatus.connected:
                       return _buildConnectedTitleState(context, data);
-                    case ConnectionStatus.connecting:
+                    case ConnectionStatus.connecting: 
                       return const Text(
                         'Connecting',
                         style: TextStyle(
@@ -211,7 +211,7 @@ Widget _buildConnectedTitleState(
   Widget? alternativeWidget;
   final channel = StreamChannel.of(context).channel;
   final memberCount = channel.memberCount;
-  if (memberCount != null && memberCount > 2) {
+  if (memberCount != null && memberCount > 2) { // FOR GROUP CHAT. WE NEVER USED IT.
     var text = 'Members: $memberCount';
     final watcherCount = channel.state?.watcherCount ?? 0;
     if (watcherCount > 0) {
@@ -220,7 +220,7 @@ Widget _buildConnectedTitleState(
     alternativeWidget = Text(
       text,
     );
-  } else {
+  } else { // WE USED THIS ONE.
     final userId = StreamChatCore.of(context).currentUser?.id;
     final otherMember = members?.firstWhereOrNull(
       (element) => element.userId != userId,
@@ -239,7 +239,7 @@ Widget _buildConnectedTitleState(
       } else {
         alternativeWidget = Text(
           'Last online: '
-          '${Jiffy(otherMember.user?.lastActive).fromNow()}',
+          '${Jiffy(otherMember.user?.lastActive).fromNow()}', // Jiffy is the time managemnet package.
           style: TextStyle(
             fontSize: 10,
             fontWeight: FontWeight.bold,
@@ -249,7 +249,7 @@ Widget _buildConnectedTitleState(
       }
     }
   }
-
+  // when user is typeing.
   return TypingIndicator(
     alternativeWidget: alternativeWidget,
   );
@@ -270,7 +270,7 @@ class TypingIndicator extends StatelessWidget {
     final channelState = StreamChannel.of(context).channel.state!;
 
     final altWidget =
-        alternativeWidget ?? const SizedBox.shrink(); //if not null
+        alternativeWidget ?? const SizedBox.shrink(); //disappear sizebox.
 
     return BetterStreamBuilder<Iterable<User>>(
       initialData: channelState.typingEvents.keys,
@@ -282,15 +282,16 @@ class TypingIndicator extends StatelessWidget {
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
             child: data.isNotEmpty == true
-                ? const Align(
+                ?  Align(
                     alignment: Alignment.centerLeft,
-                    key: ValueKey('typing-text'),
+                    key: const ValueKey('typing-text'),
                     child: Text(
-                      'Typing message',
+                      'Typing ...',
                       maxLines: 1,
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
+                        color: Colors.grey.shade600,
                       ),
                     ),
                   )
@@ -541,7 +542,7 @@ class _ActionBarState extends State<_ActionBar> {
   final TextEditingController controller = TextEditingController();
 
   Future<void> _sendMessage() async {
-    if (controller.text.isNotEmpty) {
+    if (controller.text.isNotEmpty) { // messge is not empty.
       StreamChannel.of(context)
           .channel
           .sendMessage(Message(text: controller.text));

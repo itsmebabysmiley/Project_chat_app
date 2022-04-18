@@ -23,7 +23,7 @@ class _MessagesPageState extends State<MessagesPage> {
   Widget build(BuildContext context) {
     return ChannelListCore(
       channelListController: channelListController,
-      filter: Filter.and(
+      filter: Filter.and( //fliter only channel type messaging and channel the own by current user.
         [
           Filter.equal('type', 'messaging'),
           Filter.in_('members', [
@@ -161,7 +161,7 @@ class _MessageTitle extends StatelessWidget {
     return BetterStreamBuilder<int>(
       stream: channel.state!.unreadCountStream,
       initialData: channel.state?.unreadCount ?? 0,
-      builder: (context, count) {
+      builder: (context, count) { // count is unread messages.
         return BetterStreamBuilder<Message>(
           stream: channel.state!.lastMessageStream,
           initialData: channel.state!.lastMessage,
@@ -195,18 +195,18 @@ class _MessageTitle extends StatelessWidget {
         final now = DateTime.now();
 
         final startOfDay = DateTime(now.year, now.month, now.day);
-
+       
         if (lastMessageAt.millisecondsSinceEpoch >=
-            startOfDay.millisecondsSinceEpoch) {
+            startOfDay.millisecondsSinceEpoch) {  // today: show time
           stringDate = Jiffy(lastMessageAt.toLocal()).jm;
         } else if (lastMessageAt.millisecondsSinceEpoch >=
             startOfDay
                 .subtract(const Duration(days: 1))
-                .millisecondsSinceEpoch) {
+                .millisecondsSinceEpoch) { // yesterday: show YESTERDAY
           stringDate = 'YESTERDAY';
-        } else if (startOfDay.difference(lastMessageAt).inDays < 7) {
+        } else if (startOfDay.difference(lastMessageAt).inDays < 7) { //less than a week: show day
           stringDate = Jiffy(lastMessageAt.toLocal()).EEEE;
-        } else {
+        } else { //more than a week: show year/month/day
           stringDate = Jiffy(lastMessageAt.toLocal()).yMd;
         }
         return Text(
